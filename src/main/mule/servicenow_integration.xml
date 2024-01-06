@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mule/servicenow/current/mule-servicenow.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="servicenow_integrationFlow" doc:id="4834c64d-bc32-4813-a000-6a4360a61ba5" >
+		<http:listener doc:name="Listener" doc:id="ecc83e72-8c62-42e7-8e2c-acdde87ec903" config-ref="HTTP_Listener_config" path="/servicenow"/>
+		<ee:transform doc:name="Transform Message" doc:id="f1e7092d-6adc-4cd6-abe3-fcdcb09becf4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.service-now.com/incident
+---
+{
+    ns0#getRecords: {
+        ns0#number: payload.incident
+    }
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<servicenow:invoke doc:name="Invoke" doc:id="8eedbcc6-6b2c-4896-a16b-4fa67aa9a062" config-ref="ServiceNow_Config" service="incident" operation="getRecords"/>
+		<ee:transform doc:name="Transform Message" doc:id="67b7e870-c242-4799-80de-7bc0f82d2a3d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
