@@ -6,7 +6,7 @@
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mule/servicenow/current/mule-servicenow.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<flow name="servicenow_integrationFlow" doc:id="4834c64d-bc32-4813-a000-6a4360a61ba5" >
+	<flow name="servicenow_getRecords" doc:id="4834c64d-bc32-4813-a000-6a4360a61ba5" >
 		<http:listener doc:name="Listener" doc:id="ecc83e72-8c62-42e7-8e2c-acdde87ec903" config-ref="HTTP_Listener_config" path="/servicenow"/>
 		<ee:transform doc:name="Transform Message" doc:id="f1e7092d-6adc-4cd6-abe3-fcdcb09becf4" >
 			<ee:message >
@@ -24,6 +24,33 @@ ns ns0 http://www.service-now.com/incident
 		</ee:transform>
 		<servicenow:invoke doc:name="Invoke" doc:id="8eedbcc6-6b2c-4896-a16b-4fa67aa9a062" config-ref="ServiceNow_Config" service="incident" operation="getRecords"/>
 		<ee:transform doc:name="Transform Message" doc:id="67b7e870-c242-4799-80de-7bc0f82d2a3d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="servicenow_createIncident" doc:id="7972fbaf-6da1-4cb1-bf53-299974ecccb4" >
+		<http:listener doc:name="Listener" doc:id="0f23517b-3625-43ca-8197-8448ecd62e24" config-ref="HTTP_Listener_config1" path="/createincident"/>
+		<ee:transform doc:name="Transform Message" doc:id="675af944-546f-4b10-8b18-a718c0911acc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+ns ns0 http://www.service-now.com/incident
+---
+{
+	ns0#insert: {
+		caller_id: payload.caller,
+		comments: payload.comments,
+		short_description: payload.short_description
+	}
+} ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<servicenow:invoke service="incident" operation="insert" doc:name="Invoke" doc:id="21424934-3ae6-4c5c-8924-bce5566aca6b" config-ref="ServiceNow_Config"/>
+		<ee:transform doc:name="Transform Message" doc:id="8f7fe99b-71a8-4ac9-bf86-874d5fe897cd" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json

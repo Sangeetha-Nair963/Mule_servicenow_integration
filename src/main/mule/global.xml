@@ -11,7 +11,7 @@ http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mu
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
 	<servicenow:config name="ServiceNow_Config"
 		doc:name="ServiceNow Config"
-		doc:id="fa88e2f9-9a60-4d1d-aeaa-84982e68ed35">
+		doc:id="63801026-f894-4fd4-bd3e-05147bc7095a">
 		<servicenow:basic-connection
 			username="admin" password="${secure::servicenow.password}"
 			serviceAddress="https://dev225299.service-now.com"
@@ -24,11 +24,14 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 	</servicenow:config>
 	<http:listener-config name="HTTP_Listener_config"
 		doc:name="HTTP Listener config"
-		doc:id="4c6be341-6e68-49cd-858a-1f3a218905fe" basePath="/api">
+		doc:id="a97a42de-f33a-49f4-b1b2-12843733d233" basePath="/api">
 		<http:listener-connection host="0.0.0.0"
 			port="${secure::http.port}" />
 	</http:listener-config>
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="651f9b9e-957f-4c2e-962a-1b8c25b03ebb" file="${env}.secure.properties" key="${secure.key}" >
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP_Listener_config1" doc:id="29003cb6-1d11-4830-8880-4fa43e99e795" basePath="/api">
+		<http:listener-connection host="0.0.0.0" port="${secure::http.createport}" />
+	</http:listener-config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="1cf2a2e5-8f5d-44c5-83d1-32083b60f15c" file="${env}.secure.properties" key="${secure.key}" >
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>
 
