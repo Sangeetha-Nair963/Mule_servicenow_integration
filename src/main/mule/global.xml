@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/sc
 		doc:name="ServiceNow Config"
 		doc:id="fa88e2f9-9a60-4d1d-aeaa-84982e68ed35">
 		<servicenow:basic-connection
-			username="admin" password="H8oyPD6@+Mvq"
+			username="admin" password="${secure::servicenow.password}"
 			serviceAddress="https://dev225299.service-now.com"
 			serviceNowVersion="NEW_YORK">
 			<servicenow:transport>
