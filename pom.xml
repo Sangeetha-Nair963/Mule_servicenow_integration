@@ -37,10 +37,14 @@
 						<password>${anypoint.password}</password>
 						<applicationName>${appname}</applicationName>
 						<businessGroup>${business}</businessGroup>
-						<environment>${env}</environment>
+						<environment>${envname}</environment>
 						<workerType>${vCore}</workerType>
 						<workers>${workers}</workers>
 						<objectStoreV2>true</objectStoreV2>
+						<properties>
+                					<env>${envValue}</env>
+							<secure.key>${secure.key}</secure.key>
+            					</properties>
 					</cloudHubDeployment>
 				<classifier>mule-application</classifier>
 				</configuration>
