@@ -14,6 +14,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<app.runtime>4.5.1</app.runtime>
+		<appname>mule-servicenow</appname>
+		<envname>Sandbox</envname>
 		<mule.maven.plugin.version>4.0.0</mule.maven.plugin.version>
 	</properties>
 
@@ -32,19 +34,16 @@
 				<configuration>
 					<cloudHubDeployment>
 						<uri>https://anypoint.mulesoft.com/</uri>
-						<muleVersion>${mule.version}</muleVersion>
-						<username>${anypoint.username}</username>
-						<password>${anypoint.password}</password>
+						<muleVersion>${app.runtime}</muleVersion>
 						<applicationName>${appname}</applicationName>
-						<businessGroup>${business}</businessGroup>
 						<environment>${envname}</environment>
-						<workerType>${vCore}</workerType>
-						<workers>${workers}</workers>
+						<workerType>MICRO</workerType>
+						<workers>1</workers>
 						<objectStoreV2>true</objectStoreV2>
 						<properties>
                 					<env>${envValue}</env>
-							<secure.key>${secure.key}</secure.key>
-            					</properties>
+									<secure.key>${secure.key}</secure.key>
+						</properties>
 					</cloudHubDeployment>
 				<classifier>mule-application</classifier>
 				</configuration>
