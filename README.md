@@ -1,2 +1,2 @@
 # Mule_servicenow_integration
-This Integration connects with ServiceNow to get Incident details
+This Integration connects with ServiceNow to get Incident details and to create incident
